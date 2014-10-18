@@ -223,10 +223,16 @@ var Prize = function() {
   };
   // store picked diamonds
   this.scores = [];
+  
+  // calc diamond width/height ratio
+  this.ratio = function(){
+    return Resources.get(that.sprite).width/Resources.get(that.sprite).height;
+  }
+  
   // draw picked diamonds with its width step
   this.displayScore = function(ctx, step) {
     if (ctx && typeof step !== 'undefined') {
-      ctx.drawImage(Resources.get(that.sprite), 30 * step, 0, 30, 30/ratio());
+      ctx.drawImage(Resources.get(that.sprite), 30 * step, 0, 30, 30/this.ratio());
     }
   };
   // randomize diamond location
@@ -234,10 +240,6 @@ var Prize = function() {
     this.rect.x = randLocation().x;
     this.rect.y = randLocation().y;
   };
-  // calc diamond width/height ratio
-  function ratio() {
-    return Resources.get(that.sprite).width/Resources.get(that.sprite).height;
-  }
   // random location depends from num of cols and rows
   function randLocation() {
     return {

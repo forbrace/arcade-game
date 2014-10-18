@@ -12,4 +12,4 @@ Installation
 
 Usage
 ------------------------------------------------------------
-Use keyboard arrows ↑, →, ↓, ← to play the game. 
+Use keyboard arrow keys ↑, →, ↓, ← to play the game. 

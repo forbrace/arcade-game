@@ -12,21 +12,20 @@ var Engine = (function(global) {
     doc.body.appendChild(canvas);
 
     function main() {
-        var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+      var now = Date.now(),
+          dt = (now - lastTime) / 1000.0;
 
-        update(dt);
-        render();
+      update(dt);
+      render();
 
-        lastTime = now;
-        win.requestAnimationFrame(main);
+      lastTime = now;
+      win.requestAnimationFrame(main);
     };
 
     function init() {
-
-        reset();
-        lastTime = Date.now();
-        main();
+      reset();
+      lastTime = Date.now();
+      main();
     }
 
     function update(dt) {
@@ -38,27 +37,31 @@ var Engine = (function(global) {
       for (var i = 0, l = allEnemies.length; i < l; i++) {
 
         if (collided(player, allEnemies[i])) {
-          player.setLocation(player.initLocation);
+          player.reset(ctx);
         }
         
-        function collided(player, enemy) {
+        if (collided(player, prize) && !collided(player, allEnemies[i])) {
+          prize.score();
+        }
+        
+        function collided(obj1, obj2) {
           // https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-          var playerRect = {
-            x:      player.rect.x,
-            y:      player.rect.y,
-            width:  player.rect.width,
-            height: player.rect.height
+          var obj1Rect = {
+            x:      obj1.rect.x,
+            y:      obj1.rect.y,
+            width:  obj1.rect.width - game.collisionOffset,
+            height: obj1.rect.height - game.collisionOffset
           };
-          var enemyRect  = {
-            x:      enemy.rect.x,
-            y:      enemy.rect.y,
-            width:  enemy.rect.width,
-            height: enemy.rect.height
+          var obj2Rect  = {
+            x:      obj2.rect.x,
+            y:      obj2.rect.y,
+            width:  obj2.rect.width - game.collisionOffset,
+            height: obj2.rect.height - game.collisionOffset  
           }
-          if (playerRect.x < enemyRect.x + enemyRect.width &&
-              playerRect.x + playerRect.width > enemyRect.x &&
-              playerRect.y < enemyRect.y + enemyRect.height &&
-              playerRect.height + playerRect.y > enemyRect.y) {
+          if (obj1Rect.x < obj2Rect.x + obj2Rect.width &&
+              obj1Rect.x + obj1Rect.width > obj2Rect.x &&
+              obj1Rect.y < obj2Rect.y + obj2Rect.height &&
+              obj1Rect.height + obj1Rect.y > obj2Rect.y) {
               // collision detected!
               return true;
           }
@@ -101,6 +104,7 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.render();
         });
+        prize.render();
         player.render();
     }
 
@@ -112,8 +116,10 @@ var Engine = (function(global) {
         'images/stone-block.png',
         'images/water-block.png',
         'images/grass-block.png',
+        'images/Gem Blue.png',
         'images/enemy-bug.png',
-        'images/char-boy.png'
+        'images/char-boy.png',
+        'images/Heart.png'
     ]);
     Resources.onReady(init);
 

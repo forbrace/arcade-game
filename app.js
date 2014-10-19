@@ -60,7 +60,6 @@ game.Timer.prototype.start = function() {
 };
 game.Timer.prototype.stop = function() {
   clearTimeout(this.timerId);
-  this.timerId = null;
   return this;
 };
 game.Timer.prototype.reset = function() {
@@ -227,7 +226,6 @@ Player.prototype.update = function(dt) {
 Player.prototype.render = function() {
   ctx.drawImage(Resources.get(this.sprite), this.rect.x, this.rect.y);
   for (var i = 0; i < game.lifes; i++) {
-    // console.log(game.WIDTH - 30 * i);
     ctx.drawImage(Resources.get(this.lifeSprite), game.WIDTH - 30 - 30 * i, 0, 30, 30/this.ratio());
   };
 };

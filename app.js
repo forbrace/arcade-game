@@ -233,9 +233,6 @@ Player.prototype.render = function() {
 };
 
 Player.prototype.handleInput = function(key) {
-  // clear ctx
-  ctx.clearRect(0,0,ctx.canvas.clientWidth,ctx.canvas.clientHeight);
-
   if (game.running) {
     // change player coordinates depending on key press
     switch (key) {

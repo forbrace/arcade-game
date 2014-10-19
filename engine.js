@@ -30,6 +30,7 @@ var Engine = (function(global) {
 
     function update(dt) {
         updateEntities(dt);
+        // game.timer(dt)
         checkCollisions();
     }
     

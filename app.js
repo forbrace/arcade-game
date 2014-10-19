@@ -20,6 +20,58 @@ game.prizes = 10; // # of diamonds to collect
 game.lifes = 3; // # of lifes
 game.running = true;
 
+// Timer constructor
+game.Timer = function() {
+  var that = this;
+  
+  this.now = new Date(0, 0, 1);
+  
+  // create and append timer div to body
+  this.timerElem = document.createElement('div');
+  this.timerElem.className = 'timer';
+  this.timerElem.innerHTML = '00:00:00';
+  document.body.appendChild(this.timerElem);
+  //assing func to count method
+  this.count = count;
+  // count func
+  function count() {
+    // count every second
+    that.now.setSeconds(that.now.getSeconds() + 1);
+    
+    var hh = that.now.getHours() < 10 ? '0' + that.now.getHours() : that.now.getHours();
+    var mm = that.now.getMinutes() < 10 ? '0' + that.now.getMinutes() : that.now.getMinutes();
+    var ss = that.now.getSeconds() < 10 ? '0' + that.now.getSeconds() : that.now.getSeconds();
+    
+    that.timerElem.innerHTML = hh + ':' + mm + ':' + ss;
+    
+    that.timerId = setTimeout(function() {
+      count();
+    },1000);
+  }
+  
+};
+game.Timer.prototype.start = function() {
+  var that = this;
+  // add 1sec delay to start from 00:00:00
+  setTimeout(function() {
+    that.count();
+  }, 1000);
+  return this;
+};
+game.Timer.prototype.stop = function() {
+  clearTimeout(this.timerId);
+  this.timerId = null;
+  return this;
+};
+game.Timer.prototype.reset = function() {
+  this.timerElem.innerHTML = '00:00:00';
+  this.now = new Date(0, 0, 1);
+  return this;
+};
+
+var timer = new game.Timer();
+timer.start();
+
 game.over = function(headingText, buttonText) {
   // create overlay, splash, heading & restart button
   var overlay = document.createElement('div');
@@ -46,11 +98,15 @@ game.over = function(headingText, buttonText) {
   document.body.appendChild(overlay);
   document.body.appendChild(splash);
   
+  // stop timer
+  timer.stop();
+  
   game.running = false;
 }
 
 game.restart = function() {
   game.running = true;
+  timer.reset().start();
   player.reset(ctx);
   prize.updateLocation();
   prize.scores.length = 0;

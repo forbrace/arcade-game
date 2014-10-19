@@ -47,3 +47,13 @@ canvas {
   text-shadow:0 1px 0 rgba(0,0,0,0.3);
   cursor:pointer;
 }
+.timer {
+  position:absolute;
+  color:#fff;
+  left:0;
+  right:0;
+  top:0;
+  line-height:57px;
+  text-align:center;
+  font-size:40px;
+}
